@@ -20,7 +20,6 @@ public class MainOrders extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
         getActionBar().setTitle("All Orders");
-
         allLayout = (LinearLayout) findViewById(R.id.allOrdersLL);
     }
 
