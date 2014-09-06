@@ -12,6 +12,8 @@ public class MainOrders extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
+        getActionBar().setTitle("All Orders");
+
     }
 
 
