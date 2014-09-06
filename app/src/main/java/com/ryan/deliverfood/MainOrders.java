@@ -82,10 +82,31 @@ public class MainOrders extends Activity {
             try {
                 final HttpResponse theResponse = theClient.execute(thePost);
                 final String responseString = EntityUtils.toString(theResponse.getEntity());
-                log(responseString);
+                final String[] allOrders = responseString.split("\n");
+
+                for(String anOrder : allOrders) {
+                    final String[] orderDeets = anOrder.split("~");
+                    final String orderID = orderDeets[0];
+                    final String clientUDID = orderDeets[1];
+                    final String clientPhone = orderDeets[2];
+                    final String clientName = orderDeets[3];
+                    final String restaurantName = orderDeets[4];
+                    final String[] orderItems = orderDeets[5].split("||");
+                    final String orderCost = orderDeets[6];
+                    final String clientAddress = orderDeets[7];
+
+                    for(String o : orderItems) {
+                        log("Item: " + o);
+                    }
+                    final String orderStatus = "0";
+
+
+
+                    log("New Order: " + anOrder);
+                }
             }
             catch (Exception e) {
-                makeToast("Sorry, something wrong");
+                //makeToast("Sorry, something wrong");
             }
 
         }
