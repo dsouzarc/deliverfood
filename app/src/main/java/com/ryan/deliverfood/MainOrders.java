@@ -4,9 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.TextView;
+import android.widget.LinearLayout;
 
 
 public class MainOrders extends Activity {
+
+    private final Context theC = this;
+    private LinearLayout allLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +21,13 @@ public class MainOrders extends Activity {
         setContentView(R.layout.activity_main_orders);
         getActionBar().setTitle("All Orders");
 
+        allLayout = (LinearLayout) findViewById(R.id.allOrdersLL);
+    }
+
+    public TextView getView(final String text) {
+        final TextView theView = new TextView(theC);
+        theView.setText(text);
+        return theView;
     }
 
 
