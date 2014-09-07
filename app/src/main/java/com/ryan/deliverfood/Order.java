@@ -9,9 +9,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-/**
- * Created by Ryan on 8/28/14.
- */
+
 public class Order {
 
     private final String myName;

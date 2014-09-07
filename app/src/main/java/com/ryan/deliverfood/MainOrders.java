@@ -92,10 +92,15 @@ public class MainOrders extends Activity {
                     final String clientPhone = orderDeets[2];
                     final String clientName = orderDeets[3];
                     final String restaurantName = orderDeets[4];
-                    final String[] orderItems = orderDeets[5].split("||");
+                    final String[] orderItems = getItems(orderDeets[5]);
+                    log("ITEM: " + orderDeets[5]);
                     final String orderCost = orderDeets[6];
                     final String clientAddress = orderDeets[7];
                     final String orderStatus = "0";
+
+                    for(String o : orderItems) {
+                        log("AN ITEM: " + o);
+                    }
 
                     //Name, phone number, my address, restaurant address, UID, myOrder[], order ID, orderCost, time in millis, status
 
@@ -121,7 +126,14 @@ public class MainOrders extends Activity {
                 allLayout.addView(getView(order.toString()));
             }
         }
+    }
 
+    private String[] getItems(String theString) {
+        if(!theString.contains("||")) {
+            return new String[]{theString};
+        }
+        theString = theString.replace("||", "|");
+        return theString.split("\\|");
     }
 
     private void log(final String message) {
