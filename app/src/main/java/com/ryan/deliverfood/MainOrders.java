@@ -117,6 +117,9 @@ public class MainOrders extends Activity {
                 makeToast("Sorry, something went wrong");
             }
 
+            for(Order order : theOrders) {
+                allLayout.addView(getView(order.toString()));
+            }
         }
 
     }

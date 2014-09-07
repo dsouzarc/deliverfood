@@ -274,13 +274,16 @@ public class Order {
             items.append(", " + item);
         }
 
+        final String calendar = (theDate.get(Calendar.MONTH) + 1) + "/" +
+                theDate.get(Calendar.DAY_OF_MONTH) + "/" + theDate.get(Calendar.YEAR);
+
         return "Order{" +
                 "myAddress='" + myAddress + '\'' +
                 ", myName='" + myName + '\'' +
                 ", myNumber='" + myNumber + '\'' +
                 ", restaurantName='" + restaurantName + '\'' +
                 ", uniqueDeviceIdentifier='" + uniqueDeviceIdentifier + '\'' +
-                ", theDate=" + theDate +
+                ", theDate=" + calendar +
                 ", status='" + status + '\'' +
                 ", orderCost='" + orderCost + '\'' +
                 ", estimatedDeliveryTime='" + estimatedDeliveryTime + '\'' +
