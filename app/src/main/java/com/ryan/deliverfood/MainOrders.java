@@ -69,23 +69,24 @@ public class MainOrders extends Activity {
 
         UDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
 
-        new Thread(new UnclaimedOrder()).start();
+        new GetLiveOrdersAsync().execute();
     }
 
-    private class UnclaimedOrder implements Runnable {
+    private class GetLiveOrdersAsync extends AsyncTask<Void, Void, Order[]> {
         @Override
-        public void run() {
+        public Order[] doInBackground(Void... params) {
             final HttpClient theClient = new DefaultHttpClient();
             final HttpPost thePost = new HttpPost(
                     String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?driver=%s&getAllOrders=%s",
-                    Uri.encode("1"), Uri.encode("1")));
+                            Uri.encode("1"), Uri.encode("1")));
             try {
                 final HttpResponse theResponse = theClient.execute(thePost);
                 final String responseString = EntityUtils.toString(theResponse.getEntity());
                 final String[] allOrders = responseString.split("\n");
+                final Order[] theOrders = new Order[allOrders.length];
 
-                for(String anOrder : allOrders) {
-                    final String[] orderDeets = anOrder.split("~");
+                for(int i = 0; i < allOrders.length; i++) {
+                    final String[] orderDeets = allOrders[i].split("~");
                     final String orderID = orderDeets[0];
                     final String clientUDID = orderDeets[1];
                     final String clientPhone = orderDeets[2];
@@ -94,22 +95,30 @@ public class MainOrders extends Activity {
                     final String[] orderItems = orderDeets[5].split("||");
                     final String orderCost = orderDeets[6];
                     final String clientAddress = orderDeets[7];
-
-                    for(String o : orderItems) {
-                        log("Item: " + o);
-                    }
                     final String orderStatus = "0";
 
+                    //Name, phone number, my address, restaurant address, UID, myOrder[], order ID, orderCost, time in millis, status
 
-
-                    log("New Order: " + anOrder);
+                    theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
+                            clientUDID, orderItems, orderID, orderCost,
+                            String.valueOf(System.currentTimeMillis()), orderStatus);
                 }
+
+                return theOrders;
             }
             catch (Exception e) {
-                //makeToast("Sorry, something wrong");
+                return null;
+            }
+        }
+
+        @Override
+        public void onPostExecute(final Order[] theOrders) {
+            if(theOrders == null) {
+                makeToast("Sorry, something went wrong");
             }
 
         }
+
     }
 
     private void log(final String message) {
