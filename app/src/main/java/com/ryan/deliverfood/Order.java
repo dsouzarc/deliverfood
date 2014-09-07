@@ -268,6 +268,27 @@ public class Order {
     }*/
 
     @Override
+    public String toString() {
+        final StringBuilder items = new StringBuilder();
+        for(String item : myOrder) {
+            items.append(", " + item);
+        }
+
+        return "Order{" +
+                "myAddress='" + myAddress + '\'' +
+                ", myName='" + myName + '\'' +
+                ", myNumber='" + myNumber + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", uniqueDeviceIdentifier='" + uniqueDeviceIdentifier + '\'' +
+                ", theDate=" + theDate +
+                ", status='" + status + '\'' +
+                ", orderCost='" + orderCost + '\'' +
+                ", estimatedDeliveryTime='" + estimatedDeliveryTime + '\'' +
+                ", Items=' " + items.toString() + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         int result = myName.hashCode();
         result = 31 * result + myNumber.hashCode();
