@@ -93,16 +93,9 @@ public class MainOrders extends Activity {
                     final String clientName = orderDeets[3];
                     final String restaurantName = orderDeets[4];
                     final String[] orderItems = getItems(orderDeets[5]);
-                    log("ITEM: " + orderDeets[5]);
                     final String orderCost = orderDeets[6];
                     final String clientAddress = orderDeets[7];
                     final String orderStatus = "0";
-
-                    for(String o : orderItems) {
-                        log("AN ITEM: " + o);
-                    }
-
-                    //Name, phone number, my address, restaurant address, UID, myOrder[], order ID, orderCost, time in millis, status
 
                     theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
                             clientUDID, orderItems, orderID, orderCost,
@@ -128,6 +121,7 @@ public class MainOrders extends Activity {
         }
     }
 
+    /** Returns the items in an Order */
     private String[] getItems(String theString) {
         if(!theString.contains("||")) {
             return new String[]{theString};
@@ -136,20 +130,22 @@ public class MainOrders extends Activity {
         return theString.split("\\|");
     }
 
+    /** Prints log statements */
     private void log(final String message) {
         Log.e("com.ryan.deliverfood", message);
     }
 
+    /** Shows toast message */
     private void makeToast(final String text) {
         Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show();
     }
 
+    /** Returns a TextView */
     public TextView getView(final String text) {
         final TextView theView = new TextView(theC);
         theView.setText(text);
         return theView;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
