@@ -25,6 +25,7 @@ public class Order {
     private String status;
     private String orderCost;
     private String estimatedDeliveryTime = "";
+    private boolean isClaimed = false;
 
     //Name, phone number, my address, restaurant address, UID, myOrder[], order ID, orderCost, time in millis, status
 
@@ -171,6 +172,14 @@ public class Order {
         return theCal.get(Calendar.MONTH) + "/" + theCal.get(Calendar.DAY_OF_MONTH) +
                 "/" + theCal.get(Calendar.YEAR) + " at " +
                 theCal.get(Calendar.HOUR_OF_DAY) + ":" + theCal.get(Calendar.MINUTE);
+    }
+
+    public void claim() {
+        this.isClaimed = true;
+    }
+    
+    public boolean isClaimed() {
+        return this.isClaimed;
     }
 
     public String getDeliveryTime() {
