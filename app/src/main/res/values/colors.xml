@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--https://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
+<resources>
+    <color name="primary900">#2a36b1</color>
+    <color name="primary800">#3b50ce</color>
+    <color name="primary700">#455ede</color>
+    <color name="primary600">#4e6cef</color>
+    <color name="primary500">#5677fc</color>
+    <color name="primary400">#738ffe</color>
+    <color name="primary300">#91a7ff</color>
+    <color name="primary100">#d0d9ff</color> <!--fallback -->
+    <color name="primary50">#e7e9fd</color>
+
+    <color name="fallback400">#ff2d6f</color>
+    <color name="fallback200">#ff5177</color>
+    <color name="fallback100">#ff7997</color>
+
+</resources>
