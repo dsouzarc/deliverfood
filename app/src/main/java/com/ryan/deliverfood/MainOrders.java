@@ -59,7 +59,7 @@ public class MainOrders extends Activity {
 
     private final Context theC = this;
     private LinearLayout allLayout;
-    private String UDID;
+    private String driverUDID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class MainOrders extends Activity {
         getActionBar().setTitle("All Orders");
         allLayout = (LinearLayout) findViewById(R.id.allOrdersLL);
 
-        UDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
+        driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
 
         new GetLiveOrdersAsync().execute();
     }
@@ -154,8 +154,29 @@ public class MainOrders extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     makeToast("Claiming...");
-                    final double claimTime = Double.parseDouble(numMinutes.getText().toString());
+                    final String claimTime = numMinutes.getText().toString();
+                    final String claimOrder = String.format(
+                            "http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
+                                    "driver=%s&claimOrder=%s&dudid=%s&estTime=%s&udid=%s&id=%s",
+                            Uri.encode("1"), Uri.encode("1"), Uri.encode(driverUDID), Uri.encode(claimTime),
+                            Uri.encode(theOrder.getUniqueDeviceIdentifier()), Uri.encode(theOrder.getIdNumber()));
+                    final HttpClient claimClient = new DefaultHttpClient();
+                    final HttpPost toPost = new HttpPost(claimOrder);
 
+                    try {
+                        final HttpResponse theResponse = claimClient.execute(toPost);
+                        final String response = EntityUtils.toString(theResponse.getEntity());
+                        if(response.equals("ACK")) {
+                            makeToast("Order claimed!");
+                        }
+                        else {
+                            makeToast("Sorry, order was not claimed");
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                        log("Sorry, something went wrong");
+                    }
                 }
             });
         }
@@ -166,10 +187,6 @@ public class MainOrders extends Activity {
         public Void doInBackground(Void... params) {
 
             final HttpClient claimClient = new DefaultHttpClient();
-
-
-
-
             return null;
         }
     }
