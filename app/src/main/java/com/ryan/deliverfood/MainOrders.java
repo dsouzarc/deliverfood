@@ -60,18 +60,23 @@ public class MainOrders extends Activity {
     private final Context theC = this;
     private LinearLayout allLayout;
     private String driverUDID;
+    private Toast toastMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
         getActionBar().setTitle("All Orders");
+        toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
         allLayout = (LinearLayout) findViewById(R.id.allOrdersLL);
 
         driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
 
         new GetLiveOrdersAsync().execute();
     }
+
+    /** Updates display with my orders */
+
 
     /** Updates display with an array of Orders it gets from the server */
     private class GetLiveOrdersAsync extends AsyncTask<Void, Void, Order[]> {
@@ -143,7 +148,7 @@ public class MainOrders extends Activity {
             final AlertDialog.Builder claimOrder = new AlertDialog.Builder(theC);
             claimOrder.setTitle("Claim Order");
             claimOrder.setView(numMinutes);
-            claimOrder.setMessage("Claim order for $" + theOrder.getOrderCost() +
+            claimOrder.setMessage("Claim order for " + theOrder.getOrderCost() +
                         " of " + theOrder.getRestaurantName() + "?");
             claimOrder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -239,7 +244,9 @@ public class MainOrders extends Activity {
 
     /** Shows toast message */
     private void makeToast(final String text) {
-        Toast.makeText(getApplication().getApplicationContext(), text, Toast.LENGTH_LONG).show();
+        toastMessage.cancel();
+        toastMessage = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        toastMessage.show();
     }
 
     @Override
