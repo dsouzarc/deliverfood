@@ -73,6 +73,7 @@ public class MainOrders extends Activity {
         new GetLiveOrdersAsync().execute();
     }
 
+    /** Updates display with an array of Orders it gets from the server */
     private class GetLiveOrdersAsync extends AsyncTask<Void, Void, Order[]> {
         @Override
         public Order[] doInBackground(Void... params) {
@@ -114,7 +115,6 @@ public class MainOrders extends Activity {
             if(theOrders == null) {
                 makeToast("Sorry, something went wrong");
             }
-
             for(Order order : theOrders) {
                 allLayout.addView(getView(order));
             }
@@ -188,22 +188,22 @@ public class MainOrders extends Activity {
             try {
                 final HttpResponse theResponse = claimClient.execute(toPost);
                 final String response = EntityUtils.toString(theResponse.getEntity());
-                if(response.equals("ACK")) {
+                log("RESPONSE: " + response);
+                if(response.contains("ACK")) {
                     return "Claimed";
                 }
-                else {
-                    return "Nope";
+                else if(response.contains("KCA")) {
+                    return "Beaten";
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
-                log("Sorry, something went wrong" + e.toString());
-                return "Error";
             }
+            return "Error";
         }
 
         @Override
         public void onPostExecute(final String result) {
+            log("result: " + result);
             if(result.equals("Claimed")) {
                 makeToast("Order successfully claimed!");
             }
@@ -224,6 +224,14 @@ public class MainOrders extends Activity {
         return theString.split("\\|");
     }
 
+    /** Returns a TextView */
+    public TextView getView(final Order theOrder) {
+        final TextView theView = new TextView(theC);
+        theView.setText(theOrder.toString());
+        theView.setOnClickListener(new ClaimOrderListener(theOrder));
+        return theView;
+    }
+
     /** Prints log statements */
     private void log(final String message) {
         Log.e("com.ryan.deliverfood", message);
@@ -231,15 +239,7 @@ public class MainOrders extends Activity {
 
     /** Shows toast message */
     private void makeToast(final String text) {
-        Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show();
-    }
-
-    /** Returns a TextView */
-    public TextView getView(final Order theOrder) {
-        final TextView theView = new TextView(theC);
-        theView.setText(theOrder.toString());
-        theView.setOnClickListener(new ClaimOrderListener(theOrder));
-        return theView;
+        Toast.makeText(getApplication().getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Override
