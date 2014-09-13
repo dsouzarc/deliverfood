@@ -177,7 +177,7 @@ public class Order {
     public void claim() {
         this.isClaimed = true;
     }
-    
+
     public boolean isClaimed() {
         return this.isClaimed;
     }

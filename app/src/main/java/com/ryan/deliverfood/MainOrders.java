@@ -101,7 +101,6 @@ public class MainOrders extends Activity {
                             clientUDID, orderItems, orderID, orderCost,
                             String.valueOf(System.currentTimeMillis()), orderStatus);
                 }
-
                 return theOrders;
             }
             catch (Exception e) {
@@ -118,6 +117,42 @@ public class MainOrders extends Activity {
             for(Order order : theOrders) {
                 allLayout.addView(getView(order.toString()));
             }
+        }
+    }
+
+    private class ClaimOrderListener implements View.OnClickListener {
+        private final Order theOrder;
+
+        public ClaimOrderListener(final Order theOrder) {
+            this.theOrder = theOrder;
+        }
+
+        @Override
+        public void onClick(final View view) {
+            if(theOrder.isClaimed() || !theOrder.getRawStatus().equals("0")) {
+                return;
+            }
+
+            final AlertDialog.Builder claimOrder = new AlertDialog.Builder(theC);
+            final EditText numMinutes = new EditText(theC);
+            numMinutes.setHint("Estimated delivery time");
+            claimOrder.setTitle("Claim Order");
+            claimOrder.setView(numMinutes);
+            claimOrder.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            claimOrder.setMessage("Claim order for $" + theOrder.getOrderCost() +
+                        " of " + theOrder.getRestaurantName() + "?");
+            claimOrder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            claimOrder.setPositiveButton("Claim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
         }
     }
 
