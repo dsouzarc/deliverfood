@@ -116,7 +116,7 @@ public class MainOrders extends Activity {
             }
 
             for(Order order : theOrders) {
-                allLayout.addView(getView(order.toString()));
+                allLayout.addView(getView(order));
             }
         }
     }
@@ -155,39 +155,65 @@ public class MainOrders extends Activity {
                 public void onClick(DialogInterface dialog, int which) {
                     makeToast("Claiming...");
                     final String claimTime = numMinutes.getText().toString();
-                    final String claimOrder = String.format(
-                            "http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
-                                    "driver=%s&claimOrder=%s&dudid=%s&estTime=%s&udid=%s&id=%s",
-                            Uri.encode("1"), Uri.encode("1"), Uri.encode(driverUDID), Uri.encode(claimTime),
-                            Uri.encode(theOrder.getUniqueDeviceIdentifier()), Uri.encode(theOrder.getIdNumber()));
-                    final HttpClient claimClient = new DefaultHttpClient();
-                    final HttpPost toPost = new HttpPost(claimOrder);
-
-                    try {
-                        final HttpResponse theResponse = claimClient.execute(toPost);
-                        final String response = EntityUtils.toString(theResponse.getEntity());
-                        if(response.equals("ACK")) {
-                            makeToast("Order claimed!");
-                        }
-                        else {
-                            makeToast("Sorry, order was not claimed");
-                        }
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        log("Sorry, something went wrong");
-                    }
+                    new ClaimOrder(theOrder, claimTime).execute();
                 }
             });
+
+            claimOrder.show();
         }
     }
 
-    private class ClaimOrder extends AsyncTask<Void, Void, Void> {
+    private class ClaimOrder extends AsyncTask<Void, Void, String> {
+
+        private final Order theOrder;
+        private final String estimatedTime;
+
+        public ClaimOrder(final Order order, final String time) {
+            this.theOrder = order;
+            this.estimatedTime = time;
+        }
+
         @Override
-        public Void doInBackground(Void... params) {
+        public String doInBackground(Void... params) {
+            final String claimOrder = String.format(
+                    "http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
+                            "driver=%s&claimOrder=%s&dudid=%s&estTime=%s&udid=%s&id=%s",
+                    Uri.encode("1"), Uri.encode("1"), Uri.encode(driverUDID),
+                    Uri.encode(estimatedTime), Uri.encode(theOrder.getUniqueDeviceIdentifier()),
+                    Uri.encode(theOrder.getIdNumber()));
 
             final HttpClient claimClient = new DefaultHttpClient();
-            return null;
+            final HttpPost toPost = new HttpPost(claimOrder);
+
+            try {
+                final HttpResponse theResponse = claimClient.execute(toPost);
+                final String response = EntityUtils.toString(theResponse.getEntity());
+                if(response.equals("ACK")) {
+                    return "Claimed";
+                }
+                else {
+                    makeToast("Sorry, order was not claimed");
+                    return "Nope";
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                log("Sorry, something went wrong" + e.toString());
+                return "Error";
+            }
+        }
+
+        @Override
+        public void onPostExecute(final String result) {
+            if(result.equals("Claimed")) {
+                makeToast("Order successfully claimed!");
+            }
+            else if(result.equals("Nope")) {
+                makeToast("Sorry, order was already claimed");
+            }
+            else {
+                makeToast("Sorry, something went wrong");
+            }
         }
     }
     /** Returns the items in an Order */
@@ -210,9 +236,10 @@ public class MainOrders extends Activity {
     }
 
     /** Returns a TextView */
-    public TextView getView(final String text) {
+    public TextView getView(final Order theOrder) {
         final TextView theView = new TextView(theC);
-        theView.setText(text);
+        theView.setText(theOrder.toString());
+        theView.setOnClickListener(new ClaimOrderListener(theOrder));
         return theView;
     }
 
