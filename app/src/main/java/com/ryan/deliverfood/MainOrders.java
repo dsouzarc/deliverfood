@@ -192,7 +192,6 @@ public class MainOrders extends Activity {
                     return "Claimed";
                 }
                 else {
-                    makeToast("Sorry, order was not claimed");
                     return "Nope";
                 }
             }
