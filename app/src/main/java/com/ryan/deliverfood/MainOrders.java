@@ -142,14 +142,38 @@ public class MainOrders extends Activity {
 
             try {
                 final HttpResponse theResponse = myClient.execute(toPost);
-                
+                final String responseString = EntityUtils.toString(theResponse.getEntity());
+                return getOrdersResponse(responseString, true);
             }
             catch (Exception e) {
+                return null;
             }
-
-
-            return null;
         }
+    }
+
+    private Order[] getOrdersResponse(final String responseString, final boolean isClaimed) {
+        final String[] allOrders = responseString.split("\n");
+        final Order[] theOrders = new Order[allOrders.length];
+        for(int i = 0; i < allOrders.length; i++) {
+            final String[] orderDeets = allOrders[i].split("~");
+            final String orderID = orderDeets[0];
+            final String clientUDID = orderDeets[1];
+            final String clientPhone = orderDeets[2];
+            final String clientName = orderDeets[3];
+            final String restaurantName = orderDeets[4];
+            final String[] orderItems = getItems(orderDeets[5]);
+            final String orderCost = orderDeets[6];
+            final String clientAddress = orderDeets[7];
+            final String orderStatus = "0";
+
+            theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
+                    clientUDID, orderItems, orderID, orderCost,
+                    String.valueOf(System.currentTimeMillis()), orderStatus);
+            if(isClaimed) {
+                theOrders[i].claim();
+            }
+        }
+        return theOrders;
     }
 
     private class ClaimOrderListener implements View.OnClickListener {
