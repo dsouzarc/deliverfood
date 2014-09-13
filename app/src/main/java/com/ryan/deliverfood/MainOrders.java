@@ -81,46 +81,43 @@ public class MainOrders extends Activity {
 
     /** Updates display with an array of Orders it gets from the server */
     private class GetLiveOrdersAsync extends AsyncTask<Void, Void, Order[]> {
+
+        private int problem = 0; //0 --> orders, 1 --> no orders, 2 --> Something went wrong
         @Override
         public Order[] doInBackground(Void... params) {
             final HttpClient theClient = new DefaultHttpClient();
             final HttpPost thePost = new HttpPost(
-                    String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?driver=%s&getAllOrders=%s",
-                            Uri.encode("1"), Uri.encode("1")));
+                    String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
+                            "driver=%s&getAllOrders=%s", Uri.encode("1"), Uri.encode("1")));
             try {
                 final HttpResponse theResponse = theClient.execute(thePost);
                 final String responseString = EntityUtils.toString(theResponse.getEntity());
-                final String[] allOrders = responseString.split("\n");
-                final Order[] theOrders = new Order[allOrders.length];
 
-                for(int i = 0; i < allOrders.length; i++) {
-                    final String[] orderDeets = allOrders[i].split("~");
-                    final String orderID = orderDeets[0];
-                    final String clientUDID = orderDeets[1];
-                    final String clientPhone = orderDeets[2];
-                    final String clientName = orderDeets[3];
-                    final String restaurantName = orderDeets[4];
-                    final String[] orderItems = getItems(orderDeets[5]);
-                    final String orderCost = orderDeets[6];
-                    final String clientAddress = orderDeets[7];
-                    final String orderStatus = "0";
-
-                    theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
-                            clientUDID, orderItems, orderID, orderCost,
-                            String.valueOf(System.currentTimeMillis()), orderStatus);
+                if(responseString.contains("~")) {
+                    problem = 0;
+                    return getOrdersResponse(responseString, false);
                 }
-                return theOrders;
+                else {
+                    problem = 1;
+                }
             }
             catch (Exception e) {
-                return null;
+                problem = 2;
             }
+            return null;
         }
 
         @Override
         public void onPostExecute(final Order[] theOrders) {
             unclaimedOrdersLayout.removeAllViews();
             if(theOrders == null) {
-                makeToast("Sorry, something went wrong");
+                if(problem == 1) {
+                    makeToast("No live orders");
+                }
+                else if(problem == 2) {
+                    makeToast("Sorry, something went wrong");
+                }
+                return;
             }
             for(Order order : theOrders) {
                 unclaimedOrdersLayout.addView(getView(order));
@@ -129,6 +126,9 @@ public class MainOrders extends Activity {
     }
 
     private class GetClaimedOrders extends AsyncTask<Void, Void, Order[]> {
+
+        private int problem = 0; //0 --> orders, 1 --> no orders, 2 --> Something went wrong
+
         @Override
         public Order[] doInBackground(Void... params) {
 
@@ -143,11 +143,33 @@ public class MainOrders extends Activity {
             try {
                 final HttpResponse theResponse = myClient.execute(toPost);
                 final String responseString = EntityUtils.toString(theResponse.getEntity());
-                return getOrdersResponse(responseString, true);
+
+                if(responseString.contains("~")) {
+                    return getOrdersResponse(responseString, true);
+                }
+                else {
+                    problem = 1;
+                }
             }
             catch (Exception e) {
-                return null;
+                problem = 2;
             }
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(final Order[] theOrders) {
+            if(theOrders == null) {
+                if (problem == 1) {
+                    makeToast("You have no live orders");
+                } else if (problem == 2) {
+                    makeToast("Sorry, something went wrong");
+                }
+                return;
+            }
+
+            
+
         }
     }
 
