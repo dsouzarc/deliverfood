@@ -58,7 +58,7 @@ import android.provider.Settings.Secure;
 public class MainOrders extends Activity {
 
     private final Context theC = this;
-    private LinearLayout allLayout;
+    private LinearLayout myClaimedOrdersLayout, unclaimedOrdersLayout;
     private String driverUDID;
     private Toast toastMessage;
 
@@ -67,10 +67,11 @@ public class MainOrders extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
         getActionBar().setTitle("All Orders");
-        toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
-        allLayout = (LinearLayout) findViewById(R.id.allOrdersLL);
 
-        driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
+        this.toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+        this.unclaimedOrdersLayout = (LinearLayout) findViewById(R.id.unclaimedOrders);
+        this.myClaimedOrdersLayout = (LinearLayout) findViewById(R.id.myClaimedOrders);
+        this.driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
 
         new GetLiveOrdersAsync().execute();
     }
@@ -117,12 +118,12 @@ public class MainOrders extends Activity {
 
         @Override
         public void onPostExecute(final Order[] theOrders) {
-            allLayout.removeAllViews();
+            unclaimedOrdersLayout.removeAllViews();
             if(theOrders == null) {
                 makeToast("Sorry, something went wrong");
             }
             for(Order order : theOrders) {
-                allLayout.addView(getView(order));
+                unclaimedOrdersLayout.addView(getView(order));
             }
         }
     }
