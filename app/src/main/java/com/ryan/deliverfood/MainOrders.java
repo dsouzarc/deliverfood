@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.os.AsyncTask;
+import android.text.InputType;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -133,12 +134,14 @@ public class MainOrders extends Activity {
                 return;
             }
 
-            final AlertDialog.Builder claimOrder = new AlertDialog.Builder(theC);
             final EditText numMinutes = new EditText(theC);
             numMinutes.setHint("Estimated delivery time");
+            numMinutes.setInputType(InputType.TYPE_CLASS_NUMBER |
+                    InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+            final AlertDialog.Builder claimOrder = new AlertDialog.Builder(theC);
             claimOrder.setTitle("Claim Order");
             claimOrder.setView(numMinutes);
-            claimOrder.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             claimOrder.setMessage("Claim order for $" + theOrder.getOrderCost() +
                         " of " + theOrder.getRestaurantName() + "?");
             claimOrder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -150,12 +153,26 @@ public class MainOrders extends Activity {
             claimOrder.setPositiveButton("Claim", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    makeToast("Claiming...");
+                    final double claimTime = Double.parseDouble(numMinutes.getText().toString());
 
                 }
             });
         }
     }
 
+    private class ClaimOrder extends AsyncTask<Void, Void, Void> {
+        @Override
+        public Void doInBackground(Void... params) {
+
+            final HttpClient claimClient = new DefaultHttpClient();
+
+
+
+
+            return null;
+        }
+    }
     /** Returns the items in an Order */
     private String[] getItems(String theString) {
         if(!theString.contains("||")) {
