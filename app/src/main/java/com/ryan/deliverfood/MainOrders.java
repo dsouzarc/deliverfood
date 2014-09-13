@@ -74,6 +74,7 @@ public class MainOrders extends Activity {
         this.driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
 
         new GetLiveOrdersAsync().execute();
+        new GetClaimedOrdersAsync().execute();
     }
 
     /** Updates display with my orders */
@@ -125,7 +126,7 @@ public class MainOrders extends Activity {
         }
     }
 
-    private class GetClaimedOrders extends AsyncTask<Void, Void, Order[]> {
+    private class GetClaimedOrdersAsync extends AsyncTask<Void, Void, Order[]> {
 
         private int problem = 0; //0 --> orders, 1 --> no orders, 2 --> Something went wrong
 
@@ -336,6 +337,7 @@ public class MainOrders extends Activity {
             case com.ryan.deliverfood.R.id.refreshItem :
                 makeToast("Refreshing...");
                 new GetLiveOrdersAsync().execute();
+                new GetClaimedOrdersAsync().execute();
                 break;
             default:
                 break;
