@@ -112,6 +112,7 @@ public class MainOrders extends Activity {
 
         @Override
         public void onPostExecute(final Order[] theOrders) {
+            allLayout.removeAllViews();
             if(theOrders == null) {
                 makeToast("Sorry, something went wrong");
             }
@@ -243,20 +244,23 @@ public class MainOrders extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_orders, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (id) {
+            case com.ryan.deliverfood.R.id.refreshItem :
+                makeToast("Refreshing...");
+                new GetLiveOrdersAsync().execute();
+                break;
+            default:
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
