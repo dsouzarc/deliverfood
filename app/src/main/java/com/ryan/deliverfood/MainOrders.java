@@ -111,9 +111,11 @@ public class MainOrders extends Activity {
             if(theOrders == null) {
                 if(problem == 1) {
                     makeToast("No live orders");
+                    log("No live orders");
                 }
                 else if(problem == 2) {
                     makeToast("Sorry, something went wrong");
+                    log("Something went wrong");
                 }
                 return;
             }
@@ -160,8 +162,10 @@ public class MainOrders extends Activity {
             if(theOrders == null) {
                 if (problem == 1) {
                     makeToast("You have no live orders");
+                    log("No claimed orders");
                 } else if (problem == 2) {
                     makeToast("Sorry, something went wrong");
+                    log("Something wrong");
                 }
                 return;
             }
