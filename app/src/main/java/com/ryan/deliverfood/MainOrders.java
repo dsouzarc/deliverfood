@@ -77,9 +77,6 @@ public class MainOrders extends Activity {
         new GetClaimedOrdersAsync().execute();
     }
 
-    /** Updates display with my orders */
-
-
     /** Updates display with an array of Orders it gets from the server */
     private class GetLiveOrdersAsync extends AsyncTask<Void, Void, Order[]> {
 
@@ -306,7 +303,7 @@ public class MainOrders extends Activity {
     /** Returns a TextView */
     public TextView getView(final Order theOrder) {
         final TextView theView = new TextView(theC);
-        theView.setText(theOrder.toString());
+        theView.setText(theOrder.getOrderForm());
         theView.setOnClickListener(new ClaimOrderListener(theOrder));
         return theView;
     }
@@ -334,7 +331,7 @@ public class MainOrders extends Activity {
         int id = item.getItemId();
 
         switch (id) {
-            case com.ryan.deliverfood.R.id.refreshItem :
+            case R.id.refreshItem :
                 makeToast("Refreshing...");
                 new GetLiveOrdersAsync().execute();
                 new GetClaimedOrdersAsync().execute();

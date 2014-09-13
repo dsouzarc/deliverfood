@@ -231,6 +231,11 @@ public class Order {
         return idNumber;
     }
 
+    public String getOrderForm() {
+        return "IsClaimed: " + isClaimed + ". Restaurant: " + restaurantName +
+                " Order cost: " + orderCost + " Status: " + status;
+    }
+
     @Override
     public boolean equals(Object other) {
         if(this == other)
