@@ -128,6 +128,30 @@ public class MainOrders extends Activity {
         }
     }
 
+    private class GetClaimedOrders extends AsyncTask<Void, Void, Order[]> {
+        @Override
+        public Order[] doInBackground(Void... params) {
+
+            final String getOrdersString = String.format(
+                    "http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
+                            "driver=%s&getMyOrders=%s&dudid=%s",
+                    Uri.encode("1"), Uri.encode("1"), Uri.encode(driverUDID));
+
+            final HttpClient myClient = new DefaultHttpClient();
+            final HttpPost toPost = new HttpPost(getOrdersString);
+
+            try {
+                final HttpResponse theResponse = myClient.execute(toPost);
+                
+            }
+            catch (Exception e) {
+            }
+
+
+            return null;
+        }
+    }
+
     private class ClaimOrderListener implements View.OnClickListener {
         private final Order theOrder;
 
