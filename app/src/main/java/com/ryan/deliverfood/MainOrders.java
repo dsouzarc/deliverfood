@@ -190,24 +190,23 @@ public class MainOrders extends Activity {
                 final String response = EntityUtils.toString(theResponse.getEntity());
                 log("RESPONSE: " + response);
                 if(response.contains("ACK")) {
-                    return "Claimed";
+                    return "0";
                 }
                 else if(response.contains("KCA")) {
-                    return "Beaten";
+                    return "1";
                 }
             }
             catch (Exception e) {
             }
-            return "Error";
+            return "2";
         }
 
         @Override
         public void onPostExecute(final String result) {
-            log("result: " + result);
-            if(result.equals("Claimed")) {
-                makeToast("Order successfully claimed!");
+            if(result.contains("0")) {
+                makeToast("Order successfully claimed");
             }
-            else if(result.equals("Nope")) {
+            else if(result.contains("1")) {
                 makeToast("Sorry, order was already claimed");
             }
             else {
