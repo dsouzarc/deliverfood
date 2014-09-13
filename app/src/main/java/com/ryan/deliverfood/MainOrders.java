@@ -167,9 +167,11 @@ public class MainOrders extends Activity {
                 }
                 return;
             }
+            myClaimedOrdersLayout.removeAllViews();
 
-            
-
+            for(Order order : theOrders) {
+                myClaimedOrdersLayout.addView(getView(order));
+            }
         }
     }
 
