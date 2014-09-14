@@ -25,7 +25,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-
 public class MainOrders extends Activity {
 
     private final Context theC = this;
@@ -81,8 +80,8 @@ public class MainOrders extends Activity {
             unclaimedOrdersLayout.removeAllViews();
             if(theOrders == null) {
                 if(problem == 1) {
-                    makeToast("No live orders");
-                    log("No live orders");
+                    makeToast("No unclaimed orders");
+                    log("No unclaimed orders");
                 }
                 else if(problem == 2) {
                     makeToast("Sorry, something went wrong");
@@ -133,8 +132,8 @@ public class MainOrders extends Activity {
             myClaimedOrdersLayout.removeAllViews();
             if(theOrders == null) {
                 if (problem == 1) {
-                    makeToast("You have no live orders");
-                    log("No claimed orders");
+                    makeToast("You have no orders");
+                    log("No orders to deliver");
                 } else if (problem == 2) {
                     makeToast("Sorry, something went wrong");
                     log("Something wrong");
@@ -162,7 +161,6 @@ public class MainOrders extends Activity {
             final String clientAddress = orderDeets[7];
             final String orderStatus = orderDeets[9];
             //final String deliveryTime = orderDeets[8];
-            log("ORDER: " + allOrders[i]);
 
             theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
                     clientUDID, orderItems, orderID, orderCost,

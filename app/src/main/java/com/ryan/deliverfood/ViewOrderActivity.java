@@ -2,24 +2,24 @@ package com.ryan.deliverfood;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.util.Log;
-import android.os.AsyncTask;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ViewOrderActivity extends Activity {
 
