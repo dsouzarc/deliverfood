@@ -277,6 +277,9 @@ public class MainOrders extends Activity {
 
         @Override
         public void onPostExecute(final String result) {
+            new GetLiveOrdersAsync().execute();
+            new GetClaimedOrdersAsync().execute();
+            
             if(result.contains("0")) {
                 makeToast("Order successfully claimed");
             }
