@@ -55,7 +55,7 @@ public class ViewOrderActivity extends Activity {
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(theOrder.statusInt() > 3) {
+            if(theOrder.statusInt() >= 3) {
                 makeToast("Cannot update status any more");
                 return;
             }
