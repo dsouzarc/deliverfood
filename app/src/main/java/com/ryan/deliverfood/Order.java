@@ -154,7 +154,7 @@ public class Order {
         return null;
     }
 
-    public void incrementStatus {
+    public void incrementStatus() {
         try {
             final int current = Integer.parseInt(this.status);
             this.status = String.valueOf(current + 1);
