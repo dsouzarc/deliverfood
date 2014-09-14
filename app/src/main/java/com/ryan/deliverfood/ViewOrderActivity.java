@@ -1,14 +1,14 @@
 package com.ryan.deliverfood;
-import android.content.Context;
+
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.ryan.deliverfood.R;
-import android.widget.TextView;
 import android.widget.Button;
-import android.graphics.Color;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class ViewOrderActivity extends Activity {
 
