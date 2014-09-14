@@ -24,9 +24,31 @@
                 android:text="Order status: "/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/Order_Items_TextView"
+                android:text="Client Name: "
+                android:id="@+id/clientNameTV"/>
 
+            <TextView
+                style="@style/Order_Items_TextView"
+                android:text="Client Address"
+                android:id="@+id/clientAddress"/>
+
+            <TextView
+                style="@style/Order_Items_TextView"
+                android:text="Client Phone"
+                android:id="@+id/clientPhone"/>
+
+            <TextView
+                style="@style/Order_Items_TextView"
+                android:text="Restaurant Name"
+                android:id="@+id/restaurantTV"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/orderItemsLayout">
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
