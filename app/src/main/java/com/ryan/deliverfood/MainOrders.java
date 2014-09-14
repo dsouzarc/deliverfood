@@ -328,6 +328,13 @@ public class MainOrders extends Activity {
         return theView;
     }
 
+    public TextView getViewOrderTextView(final Order theOrder) {
+        final TextView theView = new TextView(theC);
+        theView.setText(theOrder.getOrderForm());
+        theView.setOnClickListener(new ViewOrderListener(theOrder));
+        return theView;
+    }
+
     /** Returns a TextView */
     public TextView getView(final Order theOrder) {
         final TextView theView = new TextView(theC);
