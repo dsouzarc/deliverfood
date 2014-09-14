@@ -192,6 +192,7 @@ public class MainOrders extends Activity {
             final Intent viewOrder = new Intent(MainOrders.this, ViewOrderActivity.class);
             viewOrder.putExtra("Order", JSON);
             startActivity(viewOrder);
+            finish();
         }
     }
 
@@ -279,7 +280,7 @@ public class MainOrders extends Activity {
         public void onPostExecute(final String result) {
             new GetLiveOrdersAsync().execute();
             new GetClaimedOrdersAsync().execute();
-            
+
             if(result.contains("0")) {
                 makeToast("Order successfully claimed");
             }

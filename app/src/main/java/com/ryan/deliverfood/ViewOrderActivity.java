@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,7 +107,6 @@ public class ViewOrderActivity extends Activity {
         }
     }
 
-
     private void initializeVariables() {
         this.theC = this;
         this.theOrder = Order.getOrder(getIntent().getExtras().getString("Order"));
@@ -141,6 +141,12 @@ public class ViewOrderActivity extends Activity {
         toastMessage.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent toAllOrders = new Intent(ViewOrderActivity.this, MainOrders.class);
+        startActivity(toAllOrders);
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
