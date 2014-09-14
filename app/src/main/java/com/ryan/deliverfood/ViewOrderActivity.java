@@ -2,6 +2,7 @@ package com.ryan.deliverfood;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -61,11 +62,39 @@ public class ViewOrderActivity extends Activity {
     };
 
     private class UpdateOrderAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean problem = true;
+
         @Override
         public Void doInBackground(Void... params) {
+            final String updateStatusString =
+                    String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
+                            "driver=%s&updateStatus=%s&status=%s&udid=%s&id=%s",
+                            Uri.encode("1"), Uri.encode("1"), Uri.encode(theOrder.getRawStatus()),
+                            Uri.encode(theOrder.getUniqueDeviceIdentifier()),
+                            Uri.encode(theOrder.getIdNumber()));
+
+            final HttpClient theClient = new DefaultHttpClient();
+            final HttpPost thePost = new HttpPost(updateStatusString);
+
+            try {
+                final HttpResponse theResponse = theClient.execute(thePost);
+                final String response = EntityUtils.toString(theResponse.getEntity());
+
+                problem = !response.contains("ACK");
+            }
+            catch (Exception e) {
+            }
             return null;
         }
 
+        @Override
+        public void onPostExecute(Void param) {
+            if(problem) {
+                theOrder.decrementStatus();
+                makeToast("Sorry, something went wrong. Please try again");
+            }
+        }
     }
 
 
