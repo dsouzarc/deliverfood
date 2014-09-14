@@ -160,7 +160,8 @@ public class MainOrders extends Activity {
             final String[] orderItems = getItems(orderDeets[5]);
             final String orderCost = orderDeets[6];
             final String clientAddress = orderDeets[7];
-            final String orderStatus = "0";
+            final String orderStatus = orderDeets[8];
+            log("ORDER: " + allOrders[i]);
 
             theOrders[i] = new Order(clientName, clientPhone, clientAddress, restaurantName,
                     clientUDID, orderItems, orderID, orderCost,

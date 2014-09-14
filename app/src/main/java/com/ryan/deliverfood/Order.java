@@ -44,6 +44,10 @@ public class Order {
         this.theDate = new GregorianCalendar();
         this.theDate.setTimeInMillis(Long.parseLong(calendarTimeMillis));
         this.status = status;
+
+        if(this.status.contains("1") || this.status.contains("2") || this.status.contains("3")) {
+            isClaimed = true;
+        }
     }
 
     public JSONObject toJSONObject() {
@@ -165,8 +169,10 @@ public class Order {
 
     public void incrementStatus() {
         try {
-            final int current = Integer.parseInt(this.status);
-            this.status = String.valueOf(current + 1);
+            int current = Integer.parseInt(this.status);
+            ++current;
+            this.status = String.valueOf(current);
+            isClaimed = current != 0;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -177,6 +183,7 @@ public class Order {
         try {
             final int current = Integer.parseInt(this.status);
             this.status = String.valueOf(current - 1);
+            isClaimed = current != 0;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -205,7 +212,9 @@ public class Order {
 
     public void claim() {
         this.isClaimed = true;
-        this.status = "1";
+        if(this.status.contains("0")) {
+            this.status = "1";
+        }
     }
 
     public boolean isClaimed() {
@@ -255,7 +264,15 @@ public class Order {
         this.orderCost = orderCost;
     }
 
-    public void setOrderStatus(final String newStatus) { this.status = newStatus; }
+    public void setOrderStatus(final String newStatus) {
+        this.status = newStatus;
+        if(this.status.contains("1") || this.status.contains("2") || this.status.contains("3")) {
+            isClaimed = true;
+        }
+        else {
+            isClaimed = false;
+        }
+    }
 
     public String getIdNumber() {
         return idNumber;
