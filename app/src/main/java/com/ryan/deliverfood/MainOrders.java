@@ -120,7 +120,7 @@ public class MainOrders extends Activity {
                 return;
             }
             for(Order order : theOrders) {
-                unclaimedOrdersLayout.addView(getView(order));
+                unclaimedOrdersLayout.addView(getUnclaimedOrderTextView(order));
             }
         }
     }
@@ -172,7 +172,7 @@ public class MainOrders extends Activity {
             myClaimedOrdersLayout.removeAllViews();
 
             for(Order order : theOrders) {
-                myClaimedOrdersLayout.addView(getView(order));
+                myClaimedOrdersLayout.addView(getViewOrderTextView(order));
             }
         }
     }
@@ -332,14 +332,6 @@ public class MainOrders extends Activity {
         final TextView theView = new TextView(theC);
         theView.setText(theOrder.getOrderForm());
         theView.setOnClickListener(new ViewOrderListener(theOrder));
-        return theView;
-    }
-
-    /** Returns a TextView */
-    public TextView getView(final Order theOrder) {
-        final TextView theView = new TextView(theC);
-        theView.setText(theOrder.getOrderForm());
-        theView.setOnClickListener(new ClaimOrderListener(theOrder));
         return theView;
     }
 
