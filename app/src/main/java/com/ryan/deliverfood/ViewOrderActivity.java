@@ -94,6 +94,11 @@ public class ViewOrderActivity extends Activity {
                 theOrder.decrementStatus();
                 makeToast("Sorry, something went wrong. Please try again");
             }
+            else {
+                makeToast("Status updated to: " + theOrder.getStatus());
+            }
+
+            orderStatus.setText(theOrder.getStatus());
         }
     }
 
@@ -109,6 +114,8 @@ public class ViewOrderActivity extends Activity {
         this.clientAddress = (TextView) findViewById(R.id.clientAddress);
         this.clientPhone = (TextView) findViewById(R.id.clientPhone);
         this.restaurantName = (TextView) findViewById(R.id.restaurantTV);
+
+        this.orderStatus.setOnClickListener(updateStatus);
     }
 
     private TextView getOrderItem(final String text) {
