@@ -154,6 +154,16 @@ public class Order {
         return null;
     }
 
+    public void incrementStatus {
+        try {
+            final int current = Integer.parseInt(this.status);
+            this.status = String.valueOf(current + 1);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getRawStatus() { return this.status; }
 
     public String getCalendarTimeMillis() {

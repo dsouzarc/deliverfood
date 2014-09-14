@@ -6,7 +6,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.os.AsyncTask;
 import android.widget.Button;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,6 +47,22 @@ public class ViewOrderActivity extends Activity {
             orderItemsLayout.addView(getOrderItem(item));
         }
     }
+
+    private final View.OnClickListener updateStatus = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
+
+    private class UpdateOrderAsyncTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        public Void doInBackground(Void... params) {
+            return null;
+        }
+
+    }
+
 
     private void initializeVariables() {
         this.theC = this;
