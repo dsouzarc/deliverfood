@@ -202,6 +202,22 @@ public class MainOrders extends Activity {
         return theOrders;
     }
 
+    private class ViewOrderListener implements View.OnClickListener {
+        private final Order theOrder;
+
+        public ViewOrderListener(final Order theOrder) {
+            this.theOrder = theOrder;
+        }
+
+        @Override
+        public void onClick(final View view) {
+            final String JSON = theOrder.toJSONObject().toString();
+            final Intent viewOrder = new Intent(MainOrders.this, ViewOrderActivity.class);
+            viewOrder.putExtra("Order", JSON);
+            startActivity(viewOrder);
+        }
+    }
+
     private class ClaimOrderListener implements View.OnClickListener {
         private final Order theOrder;
 
@@ -295,6 +311,7 @@ public class MainOrders extends Activity {
             }
         }
     }
+
     /** Returns the items in an Order */
     private String[] getItems(String theString) {
         if(!theString.contains("||")) {
@@ -302,6 +319,13 @@ public class MainOrders extends Activity {
         }
         theString = theString.replace("||", "|");
         return theString.split("\\|");
+    }
+
+    public TextView getUnclaimedOrderTextView(final Order theOrder) {
+        final TextView theView = new TextView(theC);
+        theView.setText(theOrder.getOrderForm());
+        theView.setOnClickListener(new ClaimOrderListener(theOrder));
+        return theView;
     }
 
     /** Returns a TextView */
