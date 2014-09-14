@@ -196,6 +196,7 @@ public class Order {
 
     public void claim() {
         this.isClaimed = true;
+        this.status = "1";
     }
 
     public boolean isClaimed() {
