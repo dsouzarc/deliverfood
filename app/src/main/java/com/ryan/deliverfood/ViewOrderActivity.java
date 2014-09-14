@@ -7,7 +7,9 @@ import android.view.MenuItem;
 import com.ryan.deliverfood.R;
 import android.widget.TextView;
 import android.widget.Button;
+import android.graphics.Color;
 import android.widget.LinearLayout;
+
 public class ViewOrderActivity extends Activity {
 
     private Order theOrder;
@@ -21,9 +23,25 @@ public class ViewOrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_order);
         initializeVariables();
+        updateLayout();
+    }
+
+    private void updateLayout() {
+        orderStatus.setText(theOrder.getStatus());
+        clientName.setText(theOrder.getMyName());
+        clientPhone.setText(theOrder.getMyNumber());
+        clientAddress.setText(theOrder.getMyAddress());
+        restaurantName.setText(theOrder.getRestaurantName());
+
+        orderItemsLayout.removeAllViews();
+        final String[] items = theOrder.getMyOrder();
+        for(String item : items) {
+            orderItemsLayout.addView(getOrderItem(item));
+        }
     }
 
     private void initializeVariables() {
+        this.theC = this;
         this.theOrder = Order.getOrder(getIntent().getExtras().getString("Order"));
 
         this.orderItemsLayout = (LinearLayout) findViewById(R.id.orderItemsLayout);
@@ -35,6 +53,10 @@ public class ViewOrderActivity extends Activity {
     }
 
     private TextView getOrderItem(final String text) {
+        final TextView theView = new TextView(theC);
+        theView.setText(text);
+        theView.setTextColor(Color.RED);
+        return theView;
     }
 
 
