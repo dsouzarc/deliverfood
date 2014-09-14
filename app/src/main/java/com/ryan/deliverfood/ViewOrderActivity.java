@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import android.util.Log;
 import android.os.AsyncTask;
 import android.widget.Button;
 import org.apache.http.HttpResponse;
@@ -25,6 +27,7 @@ public class ViewOrderActivity extends Activity {
     private LinearLayout orderItemsLayout;
     private Button orderStatus;
     private TextView clientName, clientAddress, clientPhone, restaurantName;
+    private Toast toastMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,9 @@ public class ViewOrderActivity extends Activity {
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            theOrder.incrementStatus();
+            makeToast("Updating status to: " + theOrder.getStatus());
+            new UpdateOrderAsyncTask().execute();
         }
     };
 
@@ -67,6 +72,7 @@ public class ViewOrderActivity extends Activity {
     private void initializeVariables() {
         this.theC = this;
         this.theOrder = Order.getOrder(getIntent().getExtras().getString("Order"));
+        this.toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 
         this.orderItemsLayout = (LinearLayout) findViewById(R.id.orderItemsLayout);
         this.orderStatus = (Button) findViewById(R.id.orderStatus);
@@ -81,6 +87,18 @@ public class ViewOrderActivity extends Activity {
         theView.setText(text);
         theView.setTextColor(Color.RED);
         return theView;
+    }
+
+    /** Prints log statements */
+    private void log(final String message) {
+        Log.e("com.ryan.deliverfood", message);
+    }
+
+    /** Shows toast message */
+    private void makeToast(final String text) {
+        toastMessage.cancel();
+        toastMessage = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        toastMessage.show();
     }
 
 
