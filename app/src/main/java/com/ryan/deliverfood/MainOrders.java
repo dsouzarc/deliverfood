@@ -159,6 +159,7 @@ public class MainOrders extends Activity {
 
         @Override
         public void onPostExecute(final Order[] theOrders) {
+            myClaimedOrdersLayout.removeAllViews();
             if(theOrders == null) {
                 if (problem == 1) {
                     makeToast("You have no live orders");
@@ -169,8 +170,6 @@ public class MainOrders extends Activity {
                 }
                 return;
             }
-            myClaimedOrdersLayout.removeAllViews();
-
             for(Order order : theOrders) {
                 myClaimedOrdersLayout.addView(getViewOrderTextView(order));
             }
