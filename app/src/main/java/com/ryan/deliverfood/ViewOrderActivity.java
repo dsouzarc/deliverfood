@@ -143,7 +143,7 @@ public class ViewOrderActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Intent toAllOrders = new Intent(ViewOrderActivity.this, MainOrders.class);
+        final Intent toAllOrders = new Intent(ViewOrderActivity.this, MainOrders.class);
         startActivity(toAllOrders);
         finish();
     }
