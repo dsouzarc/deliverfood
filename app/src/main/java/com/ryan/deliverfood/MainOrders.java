@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,11 +28,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import com.parse.ParseInstallation;
 
 public class MainOrders extends Activity {
 
     private final Context theC = this;
     private LinearLayout myClaimedOrdersLayout, unclaimedOrdersLayout;
+    private SharedPreferences thePrefs;
+    private SharedPreferences.Editor theEd;
     private String driverUDID;
     private Toast toastMessage;
 
@@ -40,9 +44,18 @@ public class MainOrders extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
 
-        Parse.initialize(this, "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V",
-                "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
+        this.thePrefs = getApplicationContext().getSharedPreferences("com.ryan.deliverfood", Context.MODE_PRIVATE);
+        this.theEd = thePrefs.edit();
+
+        //Parse.initialize(this, "AdzOc2Rwa3OHorbxpc8mv698qtl8e7dg2XSjscqO", "JY1hNJ9EgxcZxFUp1VlLhqV4ZYd7Azf1H4tQTBQX");
+        Parse.initialize(this, "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
         PushService.setDefaultPushCallback(this, MainOrders.class);
+
+        if(isFirstUse()) {
+            PushService.subscribe(getApplicationContext(), "Drivers", MainOrders.class);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        }
+
 
         getActionBar().setTitle("All Orders");
 
@@ -101,6 +114,12 @@ public class MainOrders extends Activity {
                 unclaimedOrdersLayout.addView(getUnclaimedOrderTextView(order));
             }
         }
+    }
+
+    private boolean isFirstUse() {
+        boolean isFirst = thePrefs.getBoolean("isFirst", true);
+        theEd.putBoolean("isFirst", false);
+        return isFirst;
     }
 
     private class GetClaimedOrdersAsync extends AsyncTask<Void, Void, Order[]> {
