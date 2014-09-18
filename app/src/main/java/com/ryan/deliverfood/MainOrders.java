@@ -42,9 +42,6 @@ public class MainOrders extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
-        PushService.setDefaultPushCallback(getApplicationContext(), MainOrders.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_main_orders);
 
         this.thePrefs = getApplicationContext().getSharedPreferences("com.ryan.deliverfood", Context.MODE_PRIVATE);
