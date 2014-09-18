@@ -47,7 +47,6 @@ public class MainOrders extends Activity {
         this.thePrefs = getApplicationContext().getSharedPreferences("com.ryan.deliverfood", Context.MODE_PRIVATE);
         this.theEd = thePrefs.edit();
 
-        //Parse.initialize(this, "AdzOc2Rwa3OHorbxpc8mv698qtl8e7dg2XSjscqO", "JY1hNJ9EgxcZxFUp1VlLhqV4ZYd7Azf1H4tQTBQX");
         Parse.initialize(this, "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
         PushService.setDefaultPushCallback(this, MainOrders.class);
 
@@ -55,7 +54,6 @@ public class MainOrders extends Activity {
             PushService.subscribe(getApplicationContext(), "Drivers", MainOrders.class);
             ParseInstallation.getCurrentInstallation().saveInBackground();
         }
-
 
         getActionBar().setTitle("All Orders");
 
