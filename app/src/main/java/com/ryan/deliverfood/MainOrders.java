@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.PushService;
 
 import org.apache.http.HttpResponse;
@@ -28,7 +29,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import com.parse.ParseInstallation;
 
 public class MainOrders extends Activity {
 
@@ -43,6 +43,14 @@ public class MainOrders extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
+
+        try {
+            Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
+            PushService.setDefaultPushCallback(getApplicationContext(), MainOrders.class);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        }
+        catch (Exception e) {
+        }
 
         this.thePrefs = getApplicationContext().getSharedPreferences("com.ryan.deliverfood", Context.MODE_PRIVATE);
         this.theEd = thePrefs.edit();
