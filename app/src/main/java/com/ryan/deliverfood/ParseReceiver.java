@@ -5,12 +5,23 @@ import android.app.Application;
 import android.widget.Toast;
 
 import com.parse.Parse;
+import android.content.Context;
 import com.parse.PushService;
 import com.parse.ParseInstallation;
 /**
  * Created by Ryan on 9/18/14.
  */
 public class ParseReceiver extends Application {
+
+    private static ParseReceiver instance = new ParseReceiver();
+
+    public ParseReceiver() {
+        instance = this;
+    }
+
+    public static Context getContext() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
