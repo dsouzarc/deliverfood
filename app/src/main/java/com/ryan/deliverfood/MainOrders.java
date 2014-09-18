@@ -45,7 +45,8 @@ public class MainOrders extends Activity {
         setContentView(R.layout.activity_main_orders);
 
         try {
-            Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
+            Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V",
+                    "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
             PushService.setDefaultPushCallback(getApplicationContext(), MainOrders.class);
             ParseInstallation.getCurrentInstallation().saveInBackground();
         }

@@ -6,9 +6,7 @@ import android.content.Context;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.PushService;
-/**
- * Created by Ryan on 9/18/14.
- */
+
 public class ParseReceiver extends Application {
 
     private static ParseReceiver instance = new ParseReceiver();
@@ -23,7 +21,8 @@ public class ParseReceiver extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V", "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
+        Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V",
+                "P16oPFyMpAaAsWBUC41XkUCmSkVIS8TA0fUIavkM");
         PushService.setDefaultPushCallback(getApplicationContext(), MainOrders.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
