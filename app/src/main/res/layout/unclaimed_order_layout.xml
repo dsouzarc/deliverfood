@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="8dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Restaurant Name"
-        android:id="@+id/restaurantName"/>
+        android:id="@+id/restaurantName"
+        android:textSize="24dp"
+        android:textColor="@color/primary700"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Order Cost"
-        android:id="@+id/orderCost"/>
+        android:id="@+id/orderCost"
+        android:textSize="16dp"
+        android:gravity="right"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Number of items"
-        android:id="@+id/orderItems"/>
+        android:id="@+id/orderItems"
+        android:textSize="16dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Client Address"
-        android:id="@+id/clientAddress"/>
+        android:id="@+id/clientAddress"
+        android:textSize="16dp"
+        android:gravity="right"/>
 </LinearLayout>
