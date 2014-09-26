@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +30,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import java.util.Locale;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
 
 
 public class MainOrders extends Activity {

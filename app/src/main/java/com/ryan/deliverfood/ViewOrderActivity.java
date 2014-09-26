@@ -1,21 +1,20 @@
 package com.ryan.deliverfood;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import org.apache.http.protocol.HTTP;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 public class ViewOrderActivity extends Activity {
@@ -143,7 +143,7 @@ public class ViewOrderActivity extends Activity {
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(theOrder.statusInt() >= 3) {
+            if(theOrder.statusInt() > 3) {
                 makeToast("Cannot update status any more");
                 return;
             }
@@ -188,8 +188,14 @@ public class ViewOrderActivity extends Activity {
             else {
                 makeToast("Status updated to: " + theOrder.getStatus());
             }
-
-            orderStatus.setText(theOrder.getStatus());
+            currentStatus.setText("Current status: " + theOrder.getStatus());
+            theOrder.incrementStatus();
+            if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
+                orderStatus.setVisibility(View.GONE);
+            }
+            else {
+                orderStatus.setText("Update to: " + theOrder.getStatus());
+            }
         }
     }
 
