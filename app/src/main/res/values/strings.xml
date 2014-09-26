@@ -6,4 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_view_order">ViewOrderActivity</string>
 
+    <string name="princetonLatitude">40.3571</string>
+    <string name="princetonLongitude">74.6702</string>
 </resources>

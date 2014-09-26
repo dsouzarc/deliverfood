@@ -33,9 +33,6 @@ import java.util.Locale;
 
 public class MainOrders extends Activity {
 
-    private static final String princetonLatitude = "40.3571";
-    private static final String princetonLongitude = "74.6702";
-
     private final Context theC = this;
     private LinearLayout myClaimedOrdersLayout, unclaimedOrdersLayout;
     private SharedPreferences thePrefs;
@@ -265,8 +262,9 @@ public class MainOrders extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     final String geoLocation = "geo:" +
-                            princetonLatitude + "," + princetonLongitude +
-                            "?q=" + theOrder.getRestaurantName().replaceAll(" ", "+");
+                            getResources().getString(R.string.princetonLatitude) + "," +
+                            getResources().getString(R.string.princetonLongitude) + "?q=" +
+                            theOrder.getRestaurantName().replaceAll(" ", "+");
 
                     final Intent openMaps = new Intent(Intent.ACTION_VIEW);
                     openMaps.setData(Uri.parse(geoLocation));
