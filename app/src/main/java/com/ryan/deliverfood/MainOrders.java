@@ -387,7 +387,6 @@ public class MainOrders extends Activity {
         if(theOrder.getDeliveryTime().length() < 1) {
             estimatedTime.setVisibility(View.GONE);
         }
-
         return theView;
     }
 
