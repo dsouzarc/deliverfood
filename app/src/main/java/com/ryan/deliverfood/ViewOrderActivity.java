@@ -69,7 +69,6 @@ public class ViewOrderActivity extends Activity {
     private final View.OnLongClickListener clientMapsListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            makeToast("Opening client address in Maps");
             final String geoLocation = "geo:" +
                     getResources().getString(R.string.princetonLatitude) + "," +
                     getResources().getString(R.string.princetonLongitude) + "?q=" +
@@ -95,7 +94,6 @@ public class ViewOrderActivity extends Activity {
     private final View.OnLongClickListener restaurantMapsListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            makeToast("Opening in Maps");
             final String geoLocation = "geo:" +
                     getResources().getString(R.string.princetonLatitude) + "," +
                     getResources().getString(R.string.princetonLongitude) + "?q=" +
@@ -122,7 +120,14 @@ public class ViewOrderActivity extends Activity {
         public boolean onLongClick(View v) {
             final Intent startText = new Intent(Intent.ACTION_SENDTO);
             startText.setType(HTTP.PLAIN_TEXT_TYPE);
-            startText.putExtra("sms:", theOrder.getMyNumber().replace("(", "").replace(")", ""));
+            startText.putExtra("sms:",
+                    theOrder.getMyNumber().replace("(", "").replace(")", "").replace("-", ""));
+            startText.setData(Uri.parse("tel:" +
+                    theOrder.getMyNumber().replace("(", "").replace(")", "")));
+            startText.putExtra("smsto:",
+                    theOrder.getMyNumber().replace("(", "").replace(")", ""));
+            startText.setData(Uri.parse("smsto:" +
+                    theOrder.getMyNumber().replace("(", "").replace(")", "")));
             startActivity(startText);
             return false;
         }
