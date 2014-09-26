@@ -62,12 +62,14 @@ public class ViewOrderActivity extends Activity {
             final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             final ClipData clip = ClipData.newPlainText("label", theOrder.getRestaurantName());
             clipboard.setPrimaryClip(clip);
+            makeToast("Client address copied to clipboard");
         }
     };
 
     private final View.OnLongClickListener clientMapsListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+            makeToast("Opening client address in Maps");
             final String geoLocation = "geo:" +
                     getResources().getString(R.string.princetonLatitude) + "," +
                     getResources().getString(R.string.princetonLongitude) + "?q=" +
@@ -86,12 +88,14 @@ public class ViewOrderActivity extends Activity {
             final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             final ClipData clip = ClipData.newPlainText("label", theOrder.getRestaurantName());
             clipboard.setPrimaryClip(clip);
+            makeToast("Restaurant copied to clipboard");
         }
     };
 
     private final View.OnLongClickListener restaurantMapsListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+            makeToast("Opening in Maps");
             final String geoLocation = "geo:" +
                     getResources().getString(R.string.princetonLatitude) + "," +
                     getResources().getString(R.string.princetonLongitude) + "?q=" +
@@ -193,6 +197,10 @@ public class ViewOrderActivity extends Activity {
         this.orderStatus.setOnClickListener(updateStatus);
         this.clientPhone.setOnClickListener(callListener);
         this.clientPhone.setOnLongClickListener(textListener);
+        this.restaurantName.setOnClickListener(restaurantAddressClipboard);
+        this.restaurantName.setOnLongClickListener(restaurantMapsListener);
+        this.clientAddress.setOnClickListener(clientAddressClipboard);
+        this.clientAddress.setOnLongClickListener(clientMapsListener);
     }
 
     private TextView getOrderItem(final String text) {
