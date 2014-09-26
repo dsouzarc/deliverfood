@@ -29,8 +29,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import java.util.Locale;
 
 public class MainOrders extends Activity {
+
+    private static final String princetonLatitude = "40.3571";
+    private static final String princetonLongitude = "74.6702";
 
     private final Context theC = this;
     private LinearLayout myClaimedOrdersLayout, unclaimedOrdersLayout;
@@ -255,6 +259,22 @@ public class MainOrders extends Activity {
                     makeToast("Claiming...");
                     final String claimTime = numMinutes.getText().toString();
                     new ClaimOrder(theOrder, claimTime).execute();
+                }
+            });
+            claimOrder.setNeutralButton("View on Maps", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    /*final String geoLocation = "geo:" +
+                            princetonLatitude + "," + princetonLongitude +
+                            "?q=" + theOrder.getRestaurantName().replaceAll(" ", "+");
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(geoLocation));
+                    startActivity(intent);*/
+                    String uri = String.format(Locale.ENGLISH, "geo:%s,%s?q=%s",
+                            princetonLatitude, princetonLongitude, theOrder.getRestaurantName());
+                    Intent openMaps = new Intent(Intent.ACTION_VIEW);
+                    openMaps.setData(Uri.parse(uri));
+                    startActivity(openMaps);
                 }
             });
 

@@ -53,6 +53,8 @@ public class ViewOrderActivity extends Activity {
         }
     }
 
+
+
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
         public void onClick(View view) {

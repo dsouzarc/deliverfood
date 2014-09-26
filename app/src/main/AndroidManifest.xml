@@ -39,10 +39,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ViewOrderActivity"
             android:label="@string/title_activity_view_order" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <service android:name="com.parse.PushService" />
