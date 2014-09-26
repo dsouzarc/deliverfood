@@ -43,9 +43,14 @@ public class ViewOrderActivity extends Activity {
     }
 
     private void updateLayout() {
-        currentStatus.setText(theOrder.getStatus());
+        currentStatus.setText("Current status: " + theOrder.getStatus());
         theOrder.incrementStatus();
-        orderStatus.setText(theOrder.getStatus());
+        if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
+            orderStatus.setVisibility(View.GONE);
+        }
+        else {
+            orderStatus.setText("Update to: " + theOrder.getStatus());
+        }
         clientName.setText(theOrder.getMyName());
         clientPhone.setText(theOrder.getMyNumber());
         clientAddress.setText(theOrder.getMyAddress());
