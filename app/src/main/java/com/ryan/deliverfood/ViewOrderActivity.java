@@ -31,7 +31,7 @@ public class ViewOrderActivity extends Activity {
     private Context theC;
     private LinearLayout orderItemsLayout;
     private Button orderStatus;
-    private TextView clientName, clientAddress, clientPhone, restaurantName;
+    private TextView clientName, clientAddress, clientPhone, restaurantName, currentStatus;
     private Toast toastMessage;
 
     @Override
@@ -198,6 +198,7 @@ public class ViewOrderActivity extends Activity {
         this.clientAddress = (TextView) findViewById(R.id.clientAddress);
         this.clientPhone = (TextView) findViewById(R.id.clientPhone);
         this.restaurantName = (TextView) findViewById(R.id.restaurantTV);
+        this.currentStatus = (TextView) findViewById(R.id.currentStatus);
 
         this.orderStatus.setOnClickListener(updateStatus);
         this.clientPhone.setOnClickListener(callListener);

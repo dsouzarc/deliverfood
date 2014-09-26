@@ -17,6 +17,13 @@
             android:orientation="vertical"
             android:id="@+id/mainLayout">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Current Status:"
+                android:textSize="16sp"
+                android:id="@+id/currentStatus"/>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

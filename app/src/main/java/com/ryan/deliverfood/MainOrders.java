@@ -374,16 +374,20 @@ public class MainOrders extends Activity {
         final View theView = unclaimedInflater.inflate(R.layout.claimed_order_layout, null);
 
         final TextView restaurantTV = (TextView) theView.findViewById(R.id.restaurantName);
-        final TextView orderStatus = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.orderStatus);
-        final TextView estimatedTime = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.estimatedTime);
-        final TextView clientTV = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.clientAddress);
+        final TextView orderStatus = (TextView) theView.findViewById(R.id.orderStatus);
+        final TextView estimatedTime = (TextView) theView.findViewById(R.id.estimatedTime);
+        final TextView clientTV = (TextView) theView.findViewById(R.id.clientAddress);
 
         restaurantTV.setText("Restaurant: " + theOrder.getRestaurantName());
         orderStatus.setText("Status: " + theOrder.getStatus());
         estimatedTime.setText("Estimated time: " + theOrder.getDeliveryTime());
         clientTV.setText("Address: " + theOrder.getMyAddress());
         theView.setOnClickListener(new ViewOrderListener(theOrder));
-        
+
+        if(theOrder.getDeliveryTime().length() < 1) {
+            estimatedTime.setVisibility(View.GONE);
+        }
+
         return theView;
     }
 
