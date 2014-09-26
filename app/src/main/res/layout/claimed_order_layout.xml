@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:text="Restaurant Name"
         android:id="@+id/restaurantName"
-        android:textSize="24dp"
-        android:textColor="@color/primary700"/>
+        android:textSize="16dp"
+        android:textColor="@color/primary900"/>
 
     <TextView
         android:layout_width="match_parent"
