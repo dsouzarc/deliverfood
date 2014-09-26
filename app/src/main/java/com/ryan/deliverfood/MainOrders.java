@@ -264,16 +264,12 @@ public class MainOrders extends Activity {
             claimOrder.setNeutralButton("View on Maps", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    /*final String geoLocation = "geo:" +
+                    final String geoLocation = "geo:" +
                             princetonLatitude + "," + princetonLongitude +
                             "?q=" + theOrder.getRestaurantName().replaceAll(" ", "+");
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(geoLocation));
-                    startActivity(intent);*/
-                    String uri = String.format(Locale.ENGLISH, "geo:%s,%s?q=%s",
-                            princetonLatitude, princetonLongitude, theOrder.getRestaurantName());
-                    Intent openMaps = new Intent(Intent.ACTION_VIEW);
-                    openMaps.setData(Uri.parse(uri));
+
+                    final Intent openMaps = new Intent(Intent.ACTION_VIEW);
+                    openMaps.setData(Uri.parse(geoLocation));
                     startActivity(openMaps);
                 }
             });
