@@ -54,6 +54,28 @@ public class ViewOrderActivity extends Activity {
         }
     }
 
+    private final View.OnClickListener addressClipboardListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    private final View.OnLongClickListener addressMapsListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            final String geoLocation = "geo:" +
+                    getResources().getString(R.string.princetonLatitude) + "," +
+                    getResources().getString(R.string.princetonLongitude) + "?q=" +
+                    theOrder.getRestaurantName().replaceAll(" ", "+");
+
+            final Intent openMaps = new Intent(Intent.ACTION_VIEW);
+            openMaps.setData(Uri.parse(geoLocation));
+            startActivity(openMaps);
+            return false;
+        }
+    };
+
     private final View.OnClickListener callListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
