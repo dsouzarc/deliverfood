@@ -30,6 +30,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import java.util.Locale;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+
 
 public class MainOrders extends Activity {
 
@@ -39,6 +42,7 @@ public class MainOrders extends Activity {
     private SharedPreferences.Editor theEd;
     private String driverUDID;
     private Toast toastMessage;
+    private LayoutInflater myClaimedInflater, unclaimedInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,10 @@ public class MainOrders extends Activity {
         this.unclaimedOrdersLayout = (LinearLayout) findViewById(R.id.unclaimedOrders);
         this.myClaimedOrdersLayout = (LinearLayout) findViewById(R.id.myClaimedOrders);
         this.driverUDID = Secure.getString(theC.getContentResolver(), Secure.ANDROID_ID);
+        this.unclaimedInflater = (LayoutInflater)
+                theC.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.myClaimedInflater = (LayoutInflater)
+                theC.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         new GetLiveOrdersAsync().execute();
         new GetClaimedOrdersAsync().execute();
@@ -344,10 +352,8 @@ public class MainOrders extends Activity {
         return theString.split("\\|");
     }
 
-    public TextView getUnclaimedOrderTextView(final Order theOrder) {
-        final TextView theView = new TextView(theC);
-        theView.setText(theOrder.getOrderForm());
-        theView.setOnClickListener(new ClaimOrderListener(theOrder));
+    public View getUnclaimedOrderTextView(final Order theOrder) {
+        final View theView = unclaimedInflater.inflate(R.layout.)
         return theView;
     }
 
