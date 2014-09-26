@@ -43,6 +43,8 @@ public class ViewOrderActivity extends Activity {
     }
 
     private void updateLayout() {
+        currentStatus.setText(theOrder.getStatus());
+        theOrder.incrementStatus();
         orderStatus.setText(theOrder.getStatus());
         clientName.setText(theOrder.getMyName());
         clientPhone.setText(theOrder.getMyNumber());
@@ -140,7 +142,6 @@ public class ViewOrderActivity extends Activity {
                 makeToast("Cannot update status any more");
                 return;
             }
-            theOrder.incrementStatus();
             makeToast("Updating status to: " + theOrder.getStatus());
             new UpdateOrderAsyncTask().execute();
         }
