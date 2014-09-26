@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import org.apache.http.protocol.HTTP;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,25 @@ public class ViewOrderActivity extends Activity {
         }
     }
 
+    private final View.OnClickListener callListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final Intent startCall = new Intent(Intent.ACTION_DIAL);
+            startCall.setData(Uri.parse("tel:" + theOrder.getMyNumber().replace("(", "").replace(")", "")));
+            startActivity(startCall);
+        }
+    };
 
+    private final View.OnLongClickListener textListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            final Intent startText = new Intent(Intent.ACTION_SENDTO);
+            startText.setType(HTTP.PLAIN_TEXT_TYPE);
+            startText.putExtra("sms:", theOrder.getMyNumber().replace("(", "").replace(")", ""));
+            startActivity(startText);
+            return false;
+        }
+    };
 
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
@@ -122,6 +141,8 @@ public class ViewOrderActivity extends Activity {
         this.restaurantName = (TextView) findViewById(R.id.restaurantTV);
 
         this.orderStatus.setOnClickListener(updateStatus);
+        this.clientPhone.setOnClickListener(callListener);
+        this.clientPhone.setOnLongClickListener(textListener);
     }
 
     private TextView getOrderItem(final String text) {
