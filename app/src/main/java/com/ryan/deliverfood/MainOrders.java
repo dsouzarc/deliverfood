@@ -361,7 +361,7 @@ public class MainOrders extends Activity {
         final TextView clientTV = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.clientAddress);
 
         restaurantTV.setText("Restaurant: " + theOrder.getRestaurantName());
-        orderCost.setText("Cost: $" + theOrder.getOrderCost());
+        orderCost.setText("Cost: $" + theOrder.getOrderCost().replace("$", ""));
         orderItems.setText("Number of items: " + theOrder.getMyOrder().length);
         clientTV.setText("Address: " + theOrder.getMyAddress());
 

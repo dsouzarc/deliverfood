@@ -18,7 +18,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your claimed orders"
+                android:text="Claimed orders"
+                android:textSize="32dp"
                 android:textColor="@android:color/darker_gray" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,9 +34,10 @@
                 android:layout_marginBottom="8dp"
                 android:background="@android:color/darker_gray"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Unclaimed orders"
+                android:textSize="32dp"
                 android:textColor="@android:color/darker_gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
