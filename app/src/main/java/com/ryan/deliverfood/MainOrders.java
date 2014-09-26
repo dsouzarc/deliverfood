@@ -370,10 +370,20 @@ public class MainOrders extends Activity {
         return theView;
     }
 
-    public TextView getViewOrderTextView(final Order theOrder) {
-        final TextView theView = new TextView(theC);
-        theView.setText(theOrder.getOrderForm());
+    public View getViewOrderTextView(final Order theOrder) {
+        final View theView = unclaimedInflater.inflate(R.layout.claimed_order_layout, null);
+
+        final TextView restaurantTV = (TextView) theView.findViewById(R.id.restaurantName);
+        final TextView orderStatus = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.orderStatus);
+        final TextView estimatedTime = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.estimatedTime);
+        final TextView clientTV = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.clientAddress);
+
+        restaurantTV.setText("Restaurant: " + theOrder.getRestaurantName());
+        orderStatus.setText("Status: " + theOrder.getStatus());
+        estimatedTime.setText("Estimated time: " + theOrder.getDeliveryTime());
+        clientTV.setText("Address: " + theOrder.getMyAddress());
         theView.setOnClickListener(new ViewOrderListener(theOrder));
+        
         return theView;
     }
 
