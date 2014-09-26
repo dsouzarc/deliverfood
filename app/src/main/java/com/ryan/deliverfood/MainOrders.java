@@ -353,7 +353,18 @@ public class MainOrders extends Activity {
     }
 
     public View getUnclaimedOrderTextView(final Order theOrder) {
-        final View theView = unclaimedInflater.inflate(R.layout.)
+        final View theView = unclaimedInflater.inflate(R.layout.unclaimed_order_layout, null);
+
+        final TextView restaurantTV = (TextView) theView.findViewById(R.id.restaurantName);
+        final TextView orderCost = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.orderCost);
+        final TextView orderItems = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.orderItems);
+        final TextView clientTV = (TextView) theView.findViewById(com.ryan.deliverfood.R.id.clientAddress);
+        
+        restaurantTV.setText("Restaurant: " + theOrder.getRestaurantName());
+        orderCost.setText("Cost: $" + theOrder.getOrderCost());
+        orderItems.setText("Number of items: " + theOrder.getMyOrder().length);
+        clientTV.setText("Address: " + theOrder.getMyAddress());
+
         return theView;
     }
 
