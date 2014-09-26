@@ -30,7 +30,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
+import android.graphics.Color;
 
 public class MainOrders extends Activity {
 
@@ -114,6 +114,11 @@ public class MainOrders extends Activity {
                 if(problem == 1) {
                     makeToast("No unclaimed orders");
                     log("No unclaimed orders");
+                    final TextView noUnclaimed = new TextView(theC);
+                    noUnclaimed.setText("None");
+                    noUnclaimed.setTextSize(16);
+                    noUnclaimed.setTextColor(Color.RED);
+                    unclaimedOrdersLayout.addView(noUnclaimed);
                 }
                 else if(problem == 2) {
                     makeToast("Sorry, something went wrong");
@@ -172,6 +177,11 @@ public class MainOrders extends Activity {
                 if (problem == 1) {
                     makeToast("You have no orders");
                     log("No orders to deliver");
+                    final TextView noClaimed = new TextView(theC);
+                    noClaimed.setText("None");
+                    noClaimed.setTextSize(16);
+                    noClaimed.setTextColor(Color.RED);
+                    myClaimedOrdersLayout.addView(noClaimed);
                 } else if (problem == 2) {
                     makeToast("Sorry, something went wrong");
                     log("Something wrong");
@@ -365,6 +375,7 @@ public class MainOrders extends Activity {
 
         theView.setOnClickListener(new ClaimOrderListener(theOrder));
 
+        theView.setPadding(0, 36, 0, 0);
         return theView;
     }
 
@@ -385,6 +396,7 @@ public class MainOrders extends Activity {
         if(theOrder.getDeliveryTime().length() < 1) {
             estimatedTime.setVisibility(View.GONE);
         }
+        theView.setPadding(0, 36, 0, 0);
         return theView;
     }
 
