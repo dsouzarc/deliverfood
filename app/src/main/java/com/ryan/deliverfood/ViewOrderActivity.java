@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,14 +56,40 @@ public class ViewOrderActivity extends Activity {
         }
     }
 
-    private final View.OnClickListener addressClipboardListener = new View.OnClickListener() {
+    private final View.OnClickListener clientAddressClipboard = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            final ClipData clip = ClipData.newPlainText("label", theOrder.getRestaurantName());
+            clipboard.setPrimaryClip(clip);
         }
     };
 
-    private final View.OnLongClickListener addressMapsListener = new View.OnLongClickListener() {
+    private final View.OnLongClickListener clientMapsListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            final String geoLocation = "geo:" +
+                    getResources().getString(R.string.princetonLatitude) + "," +
+                    getResources().getString(R.string.princetonLongitude) + "?q=" +
+                    theOrder.getRestaurantName().replaceAll(" ", "+");
+
+            final Intent openMaps = new Intent(Intent.ACTION_VIEW);
+            openMaps.setData(Uri.parse(geoLocation));
+            startActivity(openMaps);
+            return false;
+        }
+    };
+
+    private final View.OnClickListener restaurantAddressClipboard = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            final ClipData clip = ClipData.newPlainText("label", theOrder.getRestaurantName());
+            clipboard.setPrimaryClip(clip);
+        }
+    };
+
+    private final View.OnLongClickListener restaurantMapsListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             final String geoLocation = "geo:" +
