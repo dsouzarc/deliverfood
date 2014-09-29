@@ -338,6 +338,7 @@ public class MainOrders extends Activity {
             if(result.contains("0")) {
                 makeToast("Order successfully claimed");
                 final Intent viewOrder = new Intent(MainOrders.this, ViewOrderActivity.class);
+                theOrder.setOrderStatus("1");
                 viewOrder.putExtra("Order", theOrder.toJSONObject().toString());
                 startActivity(viewOrder);
                 finish();

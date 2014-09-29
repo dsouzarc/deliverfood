@@ -182,19 +182,19 @@ public class ViewOrderActivity extends Activity {
         @Override
         public void onPostExecute(Void param) {
             if(problem) {
-                theOrder.decrementStatus();
+                //theOrder.decrementStatus();
                 makeToast("Sorry, something went wrong. Please try again");
             }
             else {
                 makeToast("Status updated to: " + theOrder.getStatus());
-            }
-            currentStatus.setText("Current status: " + theOrder.getStatus());
-            theOrder.incrementStatus();
-            if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
-                orderStatus.setVisibility(View.GONE);
-            }
-            else {
-                orderStatus.setText("Update to: " + theOrder.getStatus());
+                currentStatus.setText("Current status: " + theOrder.getStatus());
+                theOrder.incrementStatus();
+                if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
+                    orderStatus.setVisibility(View.GONE);
+                }
+                else {
+                    orderStatus.setText("Update to: " + theOrder.getStatus());
+                }
             }
         }
     }
