@@ -161,7 +161,8 @@ public class ViewOrderActivity extends Activity {
             final String updateStatusString =
                     String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?" +
                             "driver=%s&updateStatus=%s&status=%s&udid=%s&id=%s",
-                            Uri.encode("1"), Uri.encode("1"), Uri.encode(theOrder.getRawStatus()),
+                            Uri.encode("1"), Uri.encode("1"),
+                            Uri.encode(String.valueOf(theOrder.getRawStatus())),
                             Uri.encode(theOrder.getUniqueDeviceIdentifier()),
                             Uri.encode(theOrder.getIdNumber()));
 
@@ -189,7 +190,7 @@ public class ViewOrderActivity extends Activity {
                 makeToast("Status updated to: " + theOrder.getStatus());
                 currentStatus.setText("Current status: " + theOrder.getStatus());
                 theOrder.incrementStatus();
-                if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
+                if(theOrder.getStatus() == Order.STATUS.DELIVERED) {
                     orderStatus.setVisibility(View.GONE);
                 }
                 else {
