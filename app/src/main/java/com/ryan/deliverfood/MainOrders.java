@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.text.InputType;
 import android.util.Log;
@@ -30,7 +34,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import android.graphics.Color;
 
 public class MainOrders extends Activity {
 
@@ -46,6 +49,21 @@ public class MainOrders extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_orders);
+
+        if(!haveNetworkConnection()) {
+            AlertDialog.Builder theBuilder = new AlertDialog.Builder(MainOrders.this);
+            theBuilder.setTitle("No Internet Connection Detected");
+            theBuilder.setMessage("Sorry, you must have a working Internet Connection to use " +
+                    "this app");
+            theBuilder.setPositiveButton("Take me to Wifi Settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                    finish();
+                }
+            });
+            theBuilder.show();
+        }
 
         try {
             Parse.initialize(getApplicationContext(), "H7vwuy3u4duhsYm9MyVMi0f1riIs6aixBLVD551V",
@@ -399,6 +417,23 @@ public class MainOrders extends Activity {
         }
         theView.setPadding(0, 36, 0, 0);
         return theView;
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 
     /** Prints log statements */
