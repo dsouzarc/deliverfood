@@ -246,7 +246,7 @@ public class MainOrders extends Activity {
 
         @Override
         public void onClick(final View view) {
-            if(theOrder.isClaimed() || !theOrder.getRawStatus().equals("0")) {
+            if(theOrder.isClaimed() || theOrder.getStatus() != Order.STATUS.UNCLAIMED) {
                 return;
             }
 

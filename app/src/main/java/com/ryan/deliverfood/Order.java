@@ -111,6 +111,23 @@ public class Order {
         }
     }
 
+    public int getRawStatus() {
+        switch (status) {
+            case UNCLAIMED:
+                return 0;
+            case CLAIMED:
+                return 1;
+            case FOOD_ORDERED:
+                return 2;
+            case EN_ROUTE:
+                return 3;
+            case DELIVERED:
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
     public STATUS getStatus() {
         return this.status;
     }

@@ -45,7 +45,7 @@ public class ViewOrderActivity extends Activity {
     private void updateLayout() {
         currentStatus.setText("Current status: " + theOrder.getStatus());
         theOrder.incrementStatus();
-        if(Integer.parseInt(theOrder.getRawStatus()) > 3) {
+        if(theOrder.getStatus() == Order.STATUS.DELIVERED) {
             orderStatus.setVisibility(View.GONE);
         }
         else {
@@ -143,7 +143,7 @@ public class ViewOrderActivity extends Activity {
     private final View.OnClickListener updateStatus = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(theOrder.statusInt() > 3) {
+            if(theOrder.getStatus() == Order.STATUS.DELIVERED) {
                 makeToast("Cannot update status any more");
                 return;
             }
