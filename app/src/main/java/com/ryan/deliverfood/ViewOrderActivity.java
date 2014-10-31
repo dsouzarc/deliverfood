@@ -43,6 +43,7 @@ public class ViewOrderActivity extends Activity {
     }
 
     private void updateLayout() {
+        getActionBar().setTitle(theOrder.getRestaurantName() + " Status: " + theOrder.getStatus());
         currentStatus.setText("Current status: " + theOrder.getStatus());
         theOrder.incrementStatus();
         if(theOrder.getStatus() == Order.STATUS.DELIVERED) {
@@ -172,7 +173,6 @@ public class ViewOrderActivity extends Activity {
             try {
                 final HttpResponse theResponse = theClient.execute(thePost);
                 final String response = EntityUtils.toString(theResponse.getEntity());
-
                 problem = !response.contains("ACK");
             }
             catch (Exception e) {
@@ -189,6 +189,7 @@ public class ViewOrderActivity extends Activity {
             else {
                 makeToast("Status updated to: " + theOrder.getStatus());
                 currentStatus.setText("Current status: " + theOrder.getStatus());
+                getActionBar().setTitle(theOrder.getRestaurantName() + " Status: " + theOrder.getStatus());
                 theOrder.incrementStatus();
                 if(theOrder.getStatus() == Order.STATUS.DELIVERED) {
                     orderStatus.setVisibility(View.GONE);
