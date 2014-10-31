@@ -22,7 +22,7 @@ public class Order {
     private final String calendarTimeMillis;
     private final Calendar theDate;
 
-    private String status;
+    private STATUS status;
     private String orderCost;
     private String estimatedDeliveryTime = "";
     private boolean isClaimed = false;
@@ -43,11 +43,97 @@ public class Order {
         this.calendarTimeMillis = calendarTimeMillis;
         this.theDate = new GregorianCalendar();
         this.theDate.setTimeInMillis(Long.parseLong(calendarTimeMillis));
-        this.status = status;
+        this.status = getStatus(status);
 
-        if(this.status.contains("1") || this.status.contains("2") || this.status.contains("3")) {
-            isClaimed = true;
+        this.isClaimed = this.status == STATUS.UNCLAIMED;
+    }
+
+    public static enum STATUS {
+        UNCLAIMED, CLAIMED, FOOD_ORDERED, EN_ROUTE, DELIVERED;
+    }
+
+    public STATUS getStatus(final String text) {
+        if(text.contains("0")) {
+            return STATUS.UNCLAIMED;
         }
+        this.isClaimed = true;
+        if(text.contains("1")) {
+            return STATUS.CLAIMED;
+        }
+        else if(text.contains("2")) {
+            return STATUS.FOOD_ORDERED;
+        }
+        else if(text.contains("3")) {
+            return STATUS.EN_ROUTE;
+        }
+        else if(text.contains("4")) {
+            return STATUS.DELIVERED;
+        }
+        this.isClaimed = false;
+        return STATUS.UNCLAIMED;
+    }
+
+    public STATUS getStatus(final int val) {
+        switch (val) {
+            case 0:
+                return STATUS.UNCLAIMED;
+            case 1:
+                this.isClaimed = true;
+                return STATUS.CLAIMED;
+            case 2:
+                this.isClaimed = true;
+                return STATUS.FOOD_ORDERED;
+            case 3:
+                this.isClaimed = true;
+                return STATUS.EN_ROUTE;
+            case 4:
+                this.isClaimed = true;
+                return STATUS.DELIVERED;
+            default:
+                return STATUS.UNCLAIMED;
+        }
+    }
+
+    public String getStatusNiceString() {
+        switch (status) {
+            case UNCLAIMED:
+                return "Unclaimed";
+            case CLAIMED:
+                return "Claimed";
+            case FOOD_ORDERED:
+                return "Food Ordered";
+            case EN_ROUTE:
+                return "En Route";
+            case DELIVERED:
+                return "Delivered";
+            default:
+                return "Unclaimed";
+        }
+    }
+
+    public STATUS getStatus() {
+        return this.status;
+    }
+
+    public static String getStatusIC(final STATUS status) {
+        switch (status) {
+            case UNCLAIMED:
+                return "\uD83D\uDD0E";
+            case CLAIMED:
+                return "\uD83D\uDC4D";
+            case FOOD_ORDERED:
+                return "\uD83C\uDF73";
+            case EN_ROUTE:
+                return "\uD83D\uDE98";
+            case DELIVERED:
+                return "\u2714";
+            default:
+                return "\uD83D\uDD0E";
+        }
+    }
+
+    public String getStatusIC() {
+        return getStatusIC(status);
     }
 
     public JSONObject toJSONObject() {
@@ -101,16 +187,6 @@ public class Order {
                 Uri.encode(idNumber), Uri.encode(uniqueDeviceIdentifier), Uri.encode("1"));
     }
 
-    public int statusInt() {
-        try {
-            return Integer.parseInt(this.status);
-        }
-        catch (Exception e) {
-            return Integer.MAX_VALUE;
-        }
-    }
-
-
     public String getCheckOrderHttpPost() {
         return String.format("http://barsoftapps.com/scripts/PrincetonFoodDelivery.py?id=%s&udid=%s&checkOrder=%s",
                 Uri.encode(idNumber), Uri.encode(uniqueDeviceIdentifier), Uri.encode("1"));
@@ -123,22 +199,6 @@ public class Order {
         catch (Exception e) {
             return null;
         }
-    }
-
-    public String getStatus() {
-        if(status.contains("0")) {
-            return "Unclaimed";
-        }
-        if(status.contains("1")) {
-            return "Claimed";
-        }
-        if(status.contains("2")) {
-            return "En route";
-        }
-        if(status.contains("3")) {
-            return "Delivered";
-        }
-        return status;
     }
 
     public static Order getOrder(final JSONObject theJSON) {
@@ -168,29 +228,24 @@ public class Order {
     }
 
     public void incrementStatus() {
-        try {
-            int current = Integer.parseInt(this.status);
-            ++current;
-            this.status = String.valueOf(current);
-            isClaimed = current != 0;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void decrementStatus() {
-        try {
-            final int current = Integer.parseInt(this.status);
-            this.status = String.valueOf(current - 1);
-            isClaimed = current != 0;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        switch (this.status) {
+            case UNCLAIMED:
+                this.status = STATUS.CLAIMED;
+                this.isClaimed = true;
+                break;
+            case CLAIMED:
+                this.status = STATUS.FOOD_ORDERED;
+                break;
+            case FOOD_ORDERED:
+                this.status = STATUS.EN_ROUTE;
+                break;
+            case EN_ROUTE:
+                this.status = STATUS.DELIVERED;
+                break;
+            default:
+                break;
         }
     }
-
-    public String getRawStatus() { return this.status; }
 
     public String getCalendarTimeMillis() {
         return this.calendarTimeMillis;
@@ -211,9 +266,9 @@ public class Order {
     }
 
     public void claim() {
-        this.isClaimed = true;
-        if(this.status.contains("0")) {
-            this.status = "1";
+        if(this.status == STATUS.UNCLAIMED) {
+            this.status = STATUS.CLAIMED;
+            this.isClaimed = true;
         }
     }
 
@@ -265,13 +320,7 @@ public class Order {
     }
 
     public void setOrderStatus(final String newStatus) {
-        this.status = newStatus;
-        if(this.status.contains("1") || this.status.contains("2") || this.status.contains("3")) {
-            isClaimed = true;
-        }
-        else {
-            isClaimed = false;
-        }
+        this.status = getStatus(newStatus);
     }
 
     public String getIdNumber() {
